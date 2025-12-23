@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>S3 Upload Demo</title>
+</head>
+<body>
+  <h2>Upload File to AWS S3</h2>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <button type="submit">Upload</button>
+  </form>
+
+  <pre id="output"></pre>
+
+<script>
+  document.getElementById("uploadForm").onsubmit = async (e) => {
+    e.preventDefault();
+
+    const file = e.target.file.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/file/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    document.getElementById("output").textContent = JSON.stringify(await res.json(), null, 2);
+  };
+</script>
+</body>
+</html>
